@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrigoMaster — Class 10 Trigonometry</title>
+<style>
+:root{--ink:#17233c;--muted:#65718a;--blue:#315be8;--pale:#eef2ff;--line:#e4e9f2;--bg:#f7f9fd}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-size:20px;font-weight:800;letter-spacing:-.5px}.brand span{color:var(--blue)}
+main{max-width:850px;margin:28px auto;padding:0 16px}.hero{text-align:center;margin-bottom:24px}.hero h1{font-size:clamp(26px,5vw,38px);margin:0 0 8px}.hero p{color:var(--muted);margin:0}
+.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 8px 28px #24345a0a}
+label{font-weight:700;display:block;margin:0 0 9px}textarea{width:100%;min-height:110px;border:1px solid #cfd7e6;border-radius:12px;padding:13px;font:inherit;resize:vertical;outline-color:var(--blue)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center}
+button,select{font:inherit;border-radius:10px;padding:11px 15px;border:1px solid var(--line);background:white;color:var(--ink)}
+button.primary{background:var(--blue);border-color:var(--blue);color:white;font-weight:700}
+button:active{transform:translateY(1px)}select{margin-left:auto}
+.note{color:var(--muted);font-size:13px;margin:12px 0 0}.result{margin-top:18px;display:none}.result h2{font-size:19px;margin:0 0 10px}.step{padding:12px;background:#f6f8ff;border-radius:10px;margin:8px 0;line-height:1.5}.tag{display:inline-block;background:var(--pale);color:var(--blue);font-size:12px;font-weight:700;padding:5px 9px;border-radius:20px;margin-bottom:10px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:24px}
+@media(max-width:520px){header{padding:14px}.panel{padding:16px}select{margin-left:0;width:100%}.row button{flex:1}}
+</style>
+</head>
+<body>
+<header><div class="brand">△ <span>Trigo</span>Master</div><div>Class 10 · CBSE</div></header>
+<main>
+<section class="hero"><h1>Understand trigonometry, step by step.</h1><p>Your Class 10 trigonometry practice space.</p></section>
+<section class="panel">
+<label for="question" id="questionLabel">Enter a trigonometry question</label>
+<textarea id="question" placeholder="Example: If sin A = 3/5, find cos A."></textarea>
+<div class="row">
+<button class="primary" id="solve">Solve example</button>
+<button id="clear">Clear</button>
+<select id="language" aria-label="Language">
+<option value="en">English</option><option value="hi">हिन्दी</option>
+</select>
+</div>
+<p class="note" id="note">Prototype: this first version demonstrates the interface and a sample Class 10 solution. Full AI solving and photo uploads will be connected later.</p>
+<div class="result" id="result" aria-live="polite">
+<span class="tag">Worked example</span><h2 id="resultTitle">Solution</h2><div id="steps"></div>
+</div>
+</section>
+</main>
+<footer>TrigoMaster · Learning prototype · Check every answer with your textbook or teacher.</footer>
+<script>
+const q=document.getElementById('question'), result=document.getElementById('result'), steps=document.getElementById('steps');
+const lang=document.getElementById('language');
+function solve(){
+ const hi=lang.value==='hi';
+ const text=q.value.trim();
+ if(!text){q.value=hi?'यदि sin A = 3/5, तो cos A ज्ञात कीजिए।':'If sin A = 3/5, find cos A.';}
+ const s=hi?[
+ 'दिया है: sin A = 3/5 = लंब / कर्ण।',
+ 'लंब = 3 और कर्ण = 5 मानते हैं।',
+ 'पाइथागोरस प्रमेय से आधार = √(5² − 3²) = √16 = 4।',
+ 'cos A = आधार / कर्ण = 4/5।'
+ ]:[
+ 'Given: sin A = 3/5 = perpendicular / hypotenuse.',
+ 'Take perpendicular = 3 and hypotenuse = 5.',
+ 'By Pythagoras: base = √(5² − 3²) = √16 = 4.',
+ 'Therefore, cos A = base / hypotenuse = 4/5.'
+ ];
+ document.getElementById('resultTitle').textContent=hi?'हल':'Solution';
+ steps.innerHTML=s.map(x=>'<div class="step"></div>').join('');
+ [...steps.children].forEach((el,i)=>el.textContent=s[i]);
+ result.style.display='block';
+}
+document.getElementById('solve').addEventListener('click',solve);
+document.getElementById('clear').addEventListener('click',()=>{q.value='';result.style.display='none';});
+lang.addEventListener('change',()=>{document.getElementById('questionLabel').textContent=lang.value==='hi'?'त्रिकोणमिति का प्रश्न लिखें':'Enter a trigonometry question';document.getElementById('note').textContent=lang.value==='hi'?'यह शुरुआती प्रोटोटाइप है। अभी इसमें एक उदाहरण का हल है; AI और फोटो अपलोड बाद में जोड़े जाएंगे।':'Prototype: this first version demonstrates the interface and a sample Class 10 solution. Full AI solving and photo uploads will be connected later.';});
+</script>
+</body>
+</html>
